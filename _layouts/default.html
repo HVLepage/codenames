@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
     <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <script src="../codenames/js/codenames.js"></script>
 
 {% seo %}
   </head>
@@ -24,8 +25,8 @@
 
           <!-- {% if site.show_downloads %} -->
             <section id="downloads">
-              <a class="zip_download_link" href="?FR">Fr</a>
-              <a class="tar_download_link" href="#EN">En</a>
+              <a class="zip_download_link" onclick="myLang('FR');" >Fr</a>
+              <a class="tar_download_link" onclick="myLang('EN');">En</a>
             </section>
           <!-- {% endif %} -->
         </header>
@@ -59,7 +60,7 @@
       </script>
     {% endif %}
 
-    <script src="../codenames/js/codenames.js"></script>
+    
 
 
   </body>
