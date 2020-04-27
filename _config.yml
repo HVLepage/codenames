@@ -1,1 +1,6 @@
+title: Codenames
+description: Jeu de quarantaine.
+baseurl: "/codenames"
+show_downloads: true
+google_analytics:
 theme: jekyll-theme-slate
