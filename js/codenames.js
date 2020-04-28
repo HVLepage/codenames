@@ -7,16 +7,38 @@ var config = {
 firebase.initializeApp(config);
 
 
+function cardSelect(i){
+    var FBref = getFBref();
+    return firebase.database().ref(FBref).once('value').then(function(snapshot) {
+        if (snapshot.exists()){
+            var updates = {};
+            updates['/card/' + i + '/flipped'] = true;
+            firebase.database().ref(FBref).update(updates);
+        }
+    });
+}
+
+
 function fetchData(){
     var FBref = getFBref();
     return firebase.database().ref(FBref).once('value').then(function(snapshot) {
         if (snapshot.exists()){
             var i
             for (i = 0; i < 25; i++) {
-                var boxid = "box" + i;
-                document.getElementById(boxid).innerHTML = snapshot.val().card[i].word;
+                var box = document.getElementById("box" + i);
+                if (snapshot.val().card[i].flipped){
+                    box.innerHTML = "";
+                    showAgent(snapshot.val().card[i].role, box);
+                }
+                else{
+                    box.innerHTML = snapshot.val().card[i].word;
+                    box.style.backgroundImage = 'url("./assets/agents/blank.png")';
+                }
             }
-            index = snapshot.val().index + 1;
+            var checkBox = document.getElementById("spyCheck");
+            if (checkBox.checked == true){
+                spymaster();
+            }
         }
     });
 }
@@ -100,24 +122,8 @@ function NewGame(){
             index = snapshot.val().index + 1;
         }
         firebase.database().ref(FBref).update({'index': index});
-        setTimeout(fetchData, 500);
-        // fetchData();
       });
 }
-
-
-
-// function writeUserData(name, email, imageUrl) {
-//     var FBref = getFBref();
-//     var nums = [...Array(5).keys()];
-//     console.log(shuffle(nums));
-//     // var ranNums = shuffle([1,2,3,4,5,6,7,8,9,10]);
-//     firebase.database().ref(FBref).set({
-//       team: name,
-//       email: email,
-//       profile_picture : imageUrl
-//     });
-//   }
 
 
 function spymaster() {
@@ -132,32 +138,10 @@ function spymaster() {
                     box.style.color = '#FFFFFF';
                     box.style.fontWeight = 'bold';
                     box.style.webkitTextStroke = '1px black';
-                    switch(snapshot.val().card[i].role){
-                        case "A":
-                            box.style.backgroundImage = 'url("./assets/agents/A.png")';
-                            break;
-                        case "CF":
-                            box.style.backgroundImage = 'url("./assets/agents/CF.png")';
-                            break;
-                        case "CM":
-                            box.style.backgroundImage = 'url("./assets/agents/CM.png")';
-                            break;
-                        case "RF":
-                            box.style.backgroundImage = 'url("./assets/agents/RF.png")';
-                            break;
-                        case "RM":
-                            box.style.backgroundImage = 'url("./assets/agents/RM.png")';
-                            break;
-                        case "BF":
-                            box.style.backgroundImage = 'url("./assets/agents/BF.png")';
-                            break;
-                        case "BM":
-                            box.style.backgroundImage = 'url("./assets/agents/BM.png")';
-                            break;
-                    }
+                    showAgent(snapshot.val().card[i].role, box);
                 }
                 else{
-                    box.style.backgroundImage = 'url("./assets/agents/blank.png")';
+                    fetchData();
                     box.style.color = '#242424';
                     box.style.fontWeight = 'normal';
                     box.style.webkitTextStroke = '0px black';
@@ -167,7 +151,31 @@ function spymaster() {
     });
 }
 
-
+function showAgent(role,box){
+    switch(role){
+        case "A":
+            box.style.backgroundImage = 'url("./assets/agents/A.png")';
+            break;
+        case "CF":
+            box.style.backgroundImage = 'url("./assets/agents/CF.png")';
+            break;
+        case "CM":
+            box.style.backgroundImage = 'url("./assets/agents/CM.png")';
+            break;
+        case "RF":
+            box.style.backgroundImage = 'url("./assets/agents/RF.png")';
+            break;
+        case "RM":
+            box.style.backgroundImage = 'url("./assets/agents/RM.png")';
+            break;
+        case "BF":
+            box.style.backgroundImage = 'url("./assets/agents/BF.png")';
+            break;
+        case "BM":
+            box.style.backgroundImage = 'url("./assets/agents/BM.png")';
+            break;
+    }
+}
 
 
 function shuffle(array) {
