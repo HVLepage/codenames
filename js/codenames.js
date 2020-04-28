@@ -82,17 +82,17 @@ function NewGame(){
 
 
 
-function writeUserData(name, email, imageUrl) {
-    var FBref = getFBref();
-    var nums = [...Array(5).keys()];
-    console.log(shuffle(nums));
-    // var ranNums = shuffle([1,2,3,4,5,6,7,8,9,10]);
-    firebase.database().ref(FBref).set({
-      team: name,
-      email: email,
-      profile_picture : imageUrl
-    });
-  }
+// function writeUserData(name, email, imageUrl) {
+//     var FBref = getFBref();
+//     var nums = [...Array(5).keys()];
+//     console.log(shuffle(nums));
+//     // var ranNums = shuffle([1,2,3,4,5,6,7,8,9,10]);
+//     firebase.database().ref(FBref).set({
+//       team: name,
+//       email: email,
+//       profile_picture : imageUrl
+//     });
+//   }
 
 
 // function spymaster(e, t) {

@@ -3,22 +3,75 @@ Custom Codenames CSS
 *******************************************************************************/
 
 .box {
-    background-color: lightgrey;
-    color: #fff;
+    // background-color: lightgrey;
+    background-image: url("../agents/blank.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    color: rgb(36, 36, 36);
     border-radius: 5px;
-    padding: 20px;
-    font-size: 150%;
+    padding-top: 40%;
+    font-size: 80%;
+    text-align: center;
+    vertical-align: bottom;
+    padding-bottom: 16%;
+    width: 100%;
+    height: 100%;
   }
   
   .wrapper {
     width: 100%;
+    height: 100%;
     display: grid;
     grid-gap: 2%;
     grid-template-columns: repeat(5, 18.4%);
-    grid-template-rows: repeat(5, auto);
+    grid-template-rows: repeat(5, 18.4%);
     grid-auto-flow: column;
+    // padding-top: 65%;
   }
 
+// * {
+//     box-sizing: border-box;
+//   }
+  
+//   .row {
+//     display: -ms-flexbox; /* IE10 */
+//     display: flex;
+//     -ms-flex-wrap: wrap; /* IE10 */
+//     flex-wrap: wrap;
+//     padding: 0 4px;
+//   }
+  
+//   /* Create five equal columns that sit next to each other */
+//   .column {
+//     -ms-flex: 20%; /* IE10 */
+//     flex: 20%;
+//     max-width: 20%;
+//     padding: 0 4px;
+//   }
+  
+//   .column img {
+//     margin-top: 0px;
+//     vertical-align: middle;
+//     border-radius: 5px;
+//     width: 100%;
+//   }
+
+//   .container {
+//     background-color: red;
+//     position: relative;
+//     width: 100%;
+//     padding-top: 65%; /* 1:1 Aspect Ratio */
+//  }
+
+
+
+// .card {
+//     width: 100%;
+//     height: 15%;
+//     background-image: url("../agents/blank.png");
+//     background-size: 100%;
+//     background-repeat: no-repeat;
+// }
 
 
 
