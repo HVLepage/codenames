@@ -2,11 +2,12 @@
 layout: default
 ---
 
-<label for="fname">Join game:</label>
+<!-- <label for="fname">Join game:</label>
 <input type="text" id="fname" name="fname" value="default">
-<input type="button" onclick="joinGame();" value="Go">
+<input type="button" onclick="joinGame();" value="Go"> -->
 
-<br>
+<button class="buttonNG" onclick="NewGame();"  style="vertical-align:middle"><span>New Game </span></button>
+
 
 Spymaster:
 <label class="switch">
@@ -14,16 +15,10 @@ Spymaster:
   <span class="slider round"></span>
 </label>
 
-<br>
+<br><br>
 
-<button class="buttonNG" onclick="NewGame();"  style="vertical-align:middle"><span>New Game </span></button>
 
-<br>
-
-<button onclick="writeUserData(1,2,3,4);"><span>End Turn </span></button>
-
-<br>
-
+<!-- <button onclick="writeUserData(1,2,3,4);"><span>End Turn </span></button> -->
 
 <div class="wrapper">
   <button class="box" id="box0" onclick="cardSelect(0);">?</button>
