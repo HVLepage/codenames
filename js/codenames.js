@@ -24,7 +24,9 @@ function fetchData(){
 function listen(){
     var gameState = firebase.database().ref(getFBref());
     gameState.on('value', function(snapshot) {
-      console.log('NEW GAME!' + snapshot.val().index);
+        if (snapshot.exists()){
+            console.log('NEW GAME!' + snapshot.val().index);
+        }
     });
 }
 
@@ -72,7 +74,8 @@ function NewGame(){
             index = snapshot.val().index + 1;
         }
         firebase.database().ref(FBref).update({'index': index});
-        fetchData();
+        setTimeout(fetchData, 500);
+        // fetchData();
       });
 }
 
