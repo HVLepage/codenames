@@ -64,6 +64,7 @@ function NewGame(){
                 else{
                     updates['/card/' + i + '/role'] = 'Civilian';
                 }
+                updates['/card/' + i + '/flipped'] = false;
             }
             firebase.database().ref(FBref).update(updates);
             });
