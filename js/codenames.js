@@ -43,6 +43,19 @@ function fetchData(){
     });
 }
 
+
+function loaded(){
+    const url = window.location;
+    const urlObject = new URL(url);
+    // const lang_id = urlObject.searchParams.get('lang')
+    var game_id = urlObject.searchParams.get('game')
+    if (game_id == null){
+        game_id = 'default';
+    }
+    document.getElementById("fname").value = game_id;
+    init();
+}
+
 function init(){
     var gameState = firebase.database().ref(getFBref());
     gameState.on('value', function(snapshot) {
