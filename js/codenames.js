@@ -53,16 +53,31 @@ function NewGame(){
             var roles = shuffle([...Array(25).keys()]);
             for (i = 0; i < 25; i++) {
                 if (roles[i] < 9){
-                    updates['/card/' + i + '/role'] = 'Blue';
+                    if (Math.random() < 0.5){
+                        updates['/card/' + i + '/role'] = 'BF';
+                    }
+                    else{
+                        updates['/card/' + i + '/role'] = 'BM';
+                    }
                 }
                 else if (roles[i] < 17){
-                    updates['/card/' + i + '/role'] = 'Red';
+                    if (Math.random() < 0.5){
+                        updates['/card/' + i + '/role'] = 'RF';
+                    }
+                    else{
+                        updates['/card/' + i + '/role'] = 'RM';
+                    }
                 }
                 else if (roles[i] < 18){
-                    updates['/card/' + i + '/role'] = 'Assassin';
+                    updates['/card/' + i + '/role'] = 'A';
                 }
                 else{
-                    updates['/card/' + i + '/role'] = 'Civilian';
+                    if (Math.random() < 0.5){
+                        updates['/card/' + i + '/role'] = 'CF';
+                    }
+                    else{
+                        updates['/card/' + i + '/role'] = 'CM';
+                    }
                 }
                 updates['/card/' + i + '/flipped'] = false;
             }
@@ -95,13 +110,52 @@ function NewGame(){
 //   }
 
 
-// function spymaster(e, t) {
-//     if (t.is(':checked')) {
-//       $(e).find('input').attr('disabled', true);
-//     } else {
-//       $(e).find('input').removeAttr('disabled');
-//     }
-// }
+function spymaster() {
+    var FBref = getFBref();
+    return firebase.database().ref(FBref).once('value').then(function(snapshot) {
+        if (snapshot.exists()){
+            var checkBox = document.getElementById("spyCheck");
+            var i
+            for (i = 0; i < 25; i++) {
+                var box = document.getElementById("box" + i);
+                if (checkBox.checked == true){
+                    box.style.color = '#FFFFFF';
+                    box.style.fontWeight = 'bold';
+                    box.style.webkitTextStroke = '1px black';
+                    switch(snapshot.val().card[i].role){
+                        case "A":
+                            box.style.backgroundImage = 'url("./assets/agents/A.png")';
+                            break;
+                        case "CF":
+                            box.style.backgroundImage = 'url("./assets/agents/CF.png")';
+                            break;
+                        case "CM":
+                            box.style.backgroundImage = 'url("./assets/agents/CM.png")';
+                            break;
+                        case "RF":
+                            box.style.backgroundImage = 'url("./assets/agents/RF.png")';
+                            break;
+                        case "RM":
+                            box.style.backgroundImage = 'url("./assets/agents/RM.png")';
+                            break;
+                        case "BF":
+                            box.style.backgroundImage = 'url("./assets/agents/BF.png")';
+                            break;
+                        case "BM":
+                            box.style.backgroundImage = 'url("./assets/agents/BM.png")';
+                            break;
+                    }
+                }
+                else{
+                    box.style.backgroundImage = 'url("./assets/agents/blank.png")';
+                    box.style.color = '#242424';
+                    box.style.fontWeight = 'normal';
+                    box.style.webkitTextStroke = '0px black';
+                }
+            }
+        }
+    });
+}
 
 
 
