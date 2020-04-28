@@ -21,15 +21,25 @@ function fetchData(){
     });
 }
 
-function listen(){
+function init(){
     var gameState = firebase.database().ref(getFBref());
     gameState.on('value', function(snapshot) {
         if (snapshot.exists()){
-            console.log('NEW GAME!' + snapshot.val().index);
+            fetchData();
+        }
+        else{
+            var i
+            for (i = 0; i < 25; i++) {
+                var box = document.getElementById("box" + i);
+                box.style.backgroundImage = 'url("./assets/agents/blank.png")';
+                box.style.color = '#242424';
+                box.style.fontWeight = 'normal';
+                box.style.webkitTextStroke = '0px black';
+                box.innerHTML = '?';
+            }
         }
     });
 }
-
 
 function NewGame(){
     var FBref = getFBref();
@@ -204,7 +214,7 @@ function myLang(language){
     const newURL = `${window.location.href.split('?')[0]}?${paramString.toString()}`
     window.history.pushState({path:newURL},'',newURL);
     gameIndex = firebase.database().ref(getFBref() + '/index');
-    listen();
+    setTimeout(init, 500);
 }
 
 
@@ -221,7 +231,7 @@ function joinGame(){
     const paramString = new URLSearchParams(params)
     const newURL = `${window.location.href.split('?')[0]}?${paramString.toString()}`
     window.history.pushState({path:newURL},'',newURL);
-    listen();
+    setTimeout(init, 500);
 }
 
 
