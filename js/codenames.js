@@ -136,6 +136,7 @@ function spymaster() {
                 var box = document.getElementById("box" + i);
                 if (checkBox.checked == true){
                     box.style.color = '#FFFFFF';
+                    box.style.fontFamily = 'Impact, Charcoal, sans-serif';
                     box.style.fontWeight = 'bold';
                     box.style.webkitTextStroke = '1px black';
                     showAgent(snapshot.val().card[i].role, box);
@@ -143,6 +144,7 @@ function spymaster() {
                 else{
                     fetchData();
                     box.style.color = '#242424';
+                    box.style.fontFamily = "'Courier New', Courier, monospace";
                     box.style.fontWeight = 'normal';
                     box.style.webkitTextStroke = '0px black';
                 }
