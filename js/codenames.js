@@ -6,10 +6,52 @@ var config = {
 };
 firebase.initializeApp(config);
 
-// // Get a reference to the database service
-// var database = firebase.database();
 
 
+
+function listen(){
+    var gameState = firebase.database().ref(getFBref());
+    gameState.on('value', function(snapshot) {
+      console.log('NEW GAME!' + snapshot.val().index);
+    });
+}
+
+
+function NewGame(){
+    var FBref = getFBref();
+    return firebase.database().ref(FBref).once('value').then(function(snapshot) {
+
+        $.getJSON( "../codenames/assets/words.json", function( json ) {
+            var i;
+            var updates = {};
+            if (FBref.slice(0, 2) == "FR"){
+                var range = shuffle([...Array(json.French.length).keys()]);
+                for (i = 0; i < 25; i++) {
+                    updates['/card/' + i + '/word'] = json.French[range[i]];
+                }
+                firebase.database().ref(FBref).update(updates);
+            }
+            else if (FBref.slice(0, 2) == "EN"){
+                var range = shuffle([...Array(json.English.length).keys()]);
+                for (i = 0; i < 25; i++) {
+                    updates['/card/' + i + '/word'] = json.English[range[i]];
+                }
+                firebase.database().ref(FBref).update(updates);
+            }
+            });
+
+        // Update index and trigger fetchGame()
+        var index = 0;
+        if (snapshot.exists()){
+            index = snapshot.val().index + 1;
+        }
+        firebase.database().ref(FBref).update({'index': index});
+      });
+}
+
+function fetchGame(){
+
+}
 
 function writeUserData(name, email, imageUrl) {
     var FBref = getFBref();
@@ -24,17 +66,13 @@ function writeUserData(name, email, imageUrl) {
   }
 
 
-
-
-
-
-function spymaster(e, t) {
-    if (t.is(':checked')) {
-      $(e).find('input').attr('disabled', true);
-    } else {
-      $(e).find('input').removeAttr('disabled');
-    }
-}
+// function spymaster(e, t) {
+//     if (t.is(':checked')) {
+//       $(e).find('input').attr('disabled', true);
+//     } else {
+//       $(e).find('input').removeAttr('disabled');
+//     }
+// }
 
 
 
@@ -82,6 +120,8 @@ function myLang(language){
     // console.log(`${window.location.href.split('?')[0]}?${paramString.toString()}`)
     const newURL = `${window.location.href.split('?')[0]}?${paramString.toString()}`
     window.history.pushState({path:newURL},'',newURL);
+    gameIndex = firebase.database().ref(getFBref() + '/index');
+    listen();
 }
 
 
@@ -98,6 +138,7 @@ function joinGame(){
     const paramString = new URLSearchParams(params)
     const newURL = `${window.location.href.split('?')[0]}?${paramString.toString()}`
     window.history.pushState({path:newURL},'',newURL);
+    listen();
 }
 
 
