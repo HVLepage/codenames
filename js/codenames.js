@@ -7,7 +7,19 @@ var config = {
 firebase.initializeApp(config);
 
 
-
+function fetchData(){
+    var FBref = getFBref();
+    return firebase.database().ref(FBref).once('value').then(function(snapshot) {
+        if (snapshot.exists()){
+            var i
+            for (i = 0; i < 25; i++) {
+                var boxid = "box" + i;
+                document.getElementById(boxid).innerHTML = snapshot.val().card[i].word;
+            }
+            index = snapshot.val().index + 1;
+        }
+    });
+}
 
 function listen(){
     var gameState = firebase.database().ref(getFBref());
@@ -29,29 +41,42 @@ function NewGame(){
                 for (i = 0; i < 25; i++) {
                     updates['/card/' + i + '/word'] = json.French[range[i]];
                 }
-                firebase.database().ref(FBref).update(updates);
             }
             else if (FBref.slice(0, 2) == "EN"){
                 var range = shuffle([...Array(json.English.length).keys()]);
                 for (i = 0; i < 25; i++) {
                     updates['/card/' + i + '/word'] = json.English[range[i]];
                 }
-                firebase.database().ref(FBref).update(updates);
             }
+            var roles = shuffle([...Array(25).keys()]);
+            for (i = 0; i < 25; i++) {
+                if (roles[i] < 9){
+                    updates['/card/' + i + '/role'] = 'Blue';
+                }
+                else if (roles[i] < 17){
+                    updates['/card/' + i + '/role'] = 'Red';
+                }
+                else if (roles[i] < 18){
+                    updates['/card/' + i + '/role'] = 'Assassin';
+                }
+                else{
+                    updates['/card/' + i + '/role'] = 'Civilian';
+                }
+            }
+            firebase.database().ref(FBref).update(updates);
             });
 
-        // Update index and trigger fetchGame()
+        // Update index and trigger fetchData()
         var index = 0;
         if (snapshot.exists()){
             index = snapshot.val().index + 1;
         }
         firebase.database().ref(FBref).update({'index': index});
+        fetchData();
       });
 }
 
-function fetchGame(){
 
-}
 
 function writeUserData(name, email, imageUrl) {
     var FBref = getFBref();
